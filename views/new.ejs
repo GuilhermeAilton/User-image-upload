@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CRUD de Clientes</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
+
+<body>
+    <h1>Cadastro de Cliente</h1>
+    <p>Preencha os dados abaixo para salvar o cliente.</p>
+    <form action="/save" method="POST" enctype="multipart/form-data">
+        <p>
+            <label>Nome: <input type="text" name="nome" /></label>
+        </p>
+        <p>
+            <label>Idade: <input type="number" name="idade" /></label>
+        </p>
+        <p>
+            <label>UF:
+                <select name="uf">
+                    <option>RS</option>
+                    <option>SC</option>
+                    <option>PR</option>
+                    <!-- coloque os estados que quiser -->
+                </select>
+            </label>
+        </p>
+        <p>
+            <label>Foto do Cliente: <input type="file" name="imagem" accept="image/*" /></label>
+        </p>
+        <p>
+            <a href="/">Cancelar</a> | <input type="submit" value="Salvar" />
+        </p>
+    </form>
+    <h1>Lista de Usuários</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>UF</th>
+                <th>Imagem</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (users && users.length> 0) { %>
+                <% users.forEach(function(user) { %>
+                    <tr>
+                        <td>
+                            <%= user.id %>
+                        </td>
+                        <td>
+                            <%= user.nome %>
+                        </td>
+                        <td>
+                            <%= user.idade %>
+                        </td>
+                        <td>
+                            <%= user.UF %>
+                        </td>
+                        <td>
+                            <% if (user.imagemUrl) { %>
+                                <img src="<%= user.imagemUrl %>" alt="Foto do Cliente" width="50">
+                                <% } else { %>
+                                    Sem Imagem
+                                    <% } %>
+                        </td>
+                        <td>
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="id" value="<%= user.id %>">
+                                <button type="submit" style="color: red;">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6">Nenhum usuário encontrado</td>
+                            </tr>
+                            <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>
